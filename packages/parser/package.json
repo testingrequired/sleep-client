@@ -5,7 +5,7 @@
   "author": "Kylee Tilley <kylee@testingrequired.com>",
   "homepage": "https://github.com/testingrequired/sleep-client#readme",
   "license": "MIT",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "files": [
     "lib"
   ],
@@ -17,9 +17,19 @@
     "url": "git+https://github.com/testingrequired/sleep-client.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "watch": "babel --watch src ---out-dir lib --extensions .ts,.tsx",
+    "build": "babel src --out-dir lib --extensions .ts,.tsx",
+    "tsc": "tsc"
   },
   "bugs": {
     "url": "https://github.com/testingrequired/sleep-client/issues"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
+    "typescript": "^3.7.4"
   }
 }
