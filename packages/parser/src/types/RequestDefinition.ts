@@ -1,5 +1,6 @@
 export default interface RequestDefinition {
   _id: string;
+  _parentId: string;
   name: string;
   description?: string;
   method: string;
