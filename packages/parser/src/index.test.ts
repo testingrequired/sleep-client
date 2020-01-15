@@ -44,6 +44,139 @@ describe("parser", () => {
       expect(() => verify(stateFile)).not.toThrow();
     });
 
+    describe("state file", () => {
+      it("should error if _id is not defined", () => {
+        delete stateFile._id;
+
+        const errors = verify(stateFile);
+
+        expect(errors).toHaveLength(1);
+        expect(errors[0].message).toBe(
+          "stateFile._id must be defined as a string"
+        );
+      });
+
+      describe("workspaces", () => {
+        it("should error if not defined", () => {
+          delete stateFile.workspaces;
+
+          const errors = verify(stateFile);
+
+          expect(errors).toHaveLength(1);
+          expect(errors[0].message).toBe(
+            "stateFile.workspaces must be defined as an object"
+          );
+        });
+
+        it("should error if defined as non object", () => {
+          (stateFile.workspaces as any) = "workspaces";
+
+          const errors = verify(stateFile);
+
+          expect(errors).toHaveLength(1);
+          expect(errors[0].message).toBe(
+            "stateFile.workspaces must be defined as an object"
+          );
+        });
+      });
+
+      describe("collections", () => {
+        it("should error if not defined", () => {
+          delete stateFile.collections;
+
+          const errors = verify(stateFile);
+
+          expect(errors).toHaveLength(1);
+          expect(errors[0].message).toBe(
+            "stateFile.collections must be defined as an object"
+          );
+        });
+
+        it("should error if defined as non object", () => {
+          (stateFile.collections as any) = "collections";
+
+          const errors = verify(stateFile);
+
+          expect(errors).toHaveLength(1);
+          expect(errors[0].message).toBe(
+            "stateFile.collections must be defined as an object"
+          );
+        });
+      });
+
+      describe("requests", () => {
+        it("should error if not defined", () => {
+          delete stateFile.requests;
+
+          const errors = verify(stateFile);
+
+          expect(errors).toHaveLength(1);
+          expect(errors[0].message).toBe(
+            "stateFile.requests must be defined as an object"
+          );
+        });
+
+        it("should error if defined as non object", () => {
+          (stateFile.requests as any) = "requests";
+
+          const errors = verify(stateFile);
+
+          expect(errors).toHaveLength(1);
+          expect(errors[0].message).toBe(
+            "stateFile.requests must be defined as an object"
+          );
+        });
+      });
+
+      describe("environment", () => {
+        it("should not error if not defined", () => {
+          delete stateFile.environment;
+
+          const errors = verify(stateFile);
+
+          expect(errors).toHaveLength(1);
+          expect(errors[0].message).toBe(
+            "stateFile.environment must be defined as an object"
+          );
+        });
+
+        it("should error if defined as non object", () => {
+          (stateFile.environment as any) = "environment";
+
+          const errors = verify(stateFile);
+
+          expect(errors).toHaveLength(1);
+          expect(errors[0].message).toBe(
+            "stateFile.environment must be defined as an object"
+          );
+        });
+      });
+
+      describe("settings", () => {
+        it("should not error if settings is not defined", () => {
+          delete stateFile.settings;
+
+          const errors = verify(stateFile);
+
+          expect(errors).toHaveLength(1);
+          expect(errors[0].message).toBe(
+            "stateFile.settings must be defined as an object"
+          );
+        });
+
+        it("should error if defined as non object", () => {
+          (stateFile.settings as any) = "settings";
+
+          const errors = verify(stateFile);
+
+          expect(errors).toHaveLength(1);
+          expect(errors[0].message).toBe(
+            "stateFile.settings must be defined as an object"
+          );
+        });
+      });
+    });
+
     describe("workspace", () => {
       it.todo("should error if _id is not defined");
       it.todo("should error if name is not defined");
