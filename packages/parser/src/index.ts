@@ -1,4 +1,5 @@
 import StateFile from "./types/StateFile";
+import Workspace from "./types/Workspace";
 
 export function verify(stateFile: StateFile): Array<Error> {
   const errors: Array<Error> = [];
@@ -7,76 +8,7 @@ export function verify(stateFile: StateFile): Array<Error> {
     errors.push(new Error("stateFile._id must be defined as a string"));
   }
 
-  if (typeof stateFile.workspaces !== "object") {
-    errors.push(new Error("stateFile.workspaces must be defined as an object"));
-  } else {
-    for (const [
-      _idKey,
-      { _id, name, description, environment }
-    ] of Object.entries(stateFile.workspaces)) {
-      verifyItem(
-        _id,
-        x => typeof x === "string",
-        `stateFile.workspaces[${_idKey}]._id must be defined as a string`,
-        errors
-      );
-
-      verifyItem(
-        name,
-        x => typeof x === "string",
-        `stateFile.workspaces[${_idKey}].name must be defined as a string`,
-        errors
-      );
-
-      verifyItem(
-        description,
-        x => {
-          if (x) {
-            return typeof x === "string";
-          }
-
-          return true;
-        },
-        `stateFile.workspaces[${_idKey}].description must be defined as a string`,
-        errors
-      );
-
-      verifyItem(
-        environment,
-        x => {
-          if (x) {
-            return typeof x === "object";
-          }
-
-          return true;
-        },
-        `stateFile.workspaces[${_idKey}].environment must be defined as an object`,
-        errors
-      );
-
-      if (environment) {
-        Object.entries(environment).forEach(([key, value]) => {
-          console.log(
-            `${key} (${typeof key}): ${value} (typeof ${typeof value})`
-          );
-
-          verifyItem(
-            key,
-            x => typeof x === "string",
-            `stateFile.workspaces[${_idKey}].environment has non string key: ${key}`,
-            errors
-          );
-
-          verifyItem(
-            value,
-            x => typeof x === "string",
-            `stateFile.workspaces[${_idKey}].environment[${key}] has non string value: ${value}`,
-            errors
-          );
-        });
-      }
-    }
-  }
+  verifyWorkspaces(stateFile.workspaces, errors);
 
   verifyItem(
     stateFile.collections,
@@ -107,6 +39,83 @@ export function verify(stateFile: StateFile): Array<Error> {
   );
 
   return errors;
+}
+
+function verifyWorkspaces(
+  workspaces: Record<string, Workspace>,
+  errors: Array<Error>
+) {
+  if (typeof workspaces !== "object") {
+    errors.push(new Error("stateFile.workspaces must be defined as an object"));
+  } else {
+    for (const [_idKey, workspace] of Object.entries(workspaces)) {
+      verifyWorkspace(workspace, _idKey, errors);
+    }
+  }
+}
+
+function verifyWorkspace(
+  workspace: Workspace,
+  _idKey: string,
+  errors: Error[]
+) {
+  const { _id, name, description, environment } = workspace;
+
+  verifyItem(
+    _id,
+    x => typeof x === "string",
+    `stateFile.workspaces[${_idKey}]._id must be defined as a string`,
+    errors
+  );
+
+  verifyItem(
+    name,
+    x => typeof x === "string",
+    `stateFile.workspaces[${_idKey}].name must be defined as a string`,
+    errors
+  );
+
+  verifyItem(
+    description,
+    x => {
+      if (x) {
+        return typeof x === "string";
+      }
+      return true;
+    },
+    `stateFile.workspaces[${_idKey}].description must be defined as a string`,
+    errors
+  );
+
+  verifyItem(
+    environment,
+    x => {
+      if (x) {
+        return typeof x === "object";
+      }
+      return true;
+    },
+    `stateFile.workspaces[${_idKey}].environment must be defined as an object`,
+    errors
+  );
+
+  if (environment) {
+    Object.entries(environment).forEach(([key, value]) => {
+      verifyItem(
+        key,
+        x => typeof x === "string",
+        `stateFile.workspaces[${_idKey}].environment has non string key: ${key}`,
+        errors
+      );
+
+      verifyItem(
+        value,
+        x => typeof x === "string",
+        `stateFile.workspaces[${_idKey}].environment[${key}] has non string value: ${value}`,
+        errors
+      );
+    });
+  }
 }
 
 function verifyItem<T>(
