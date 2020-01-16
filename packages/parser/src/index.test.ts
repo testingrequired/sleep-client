@@ -1,5 +1,6 @@
 import StateFile from "./types/StateFile";
 import { verify } from "./index";
+import Workspace from "./types/Workspace";
 
 describe("parser", () => {
   const stateFileId = "stateFileId";
@@ -178,10 +179,104 @@ describe("parser", () => {
     });
 
     describe("workspace", () => {
-      it.todo("should error if _id is not defined");
-      it.todo("should error if name is not defined");
-      it.todo("should not error if description is not defined");
-      it.todo("should not error if environment is not defined");
+      let workspace: Workspace;
+
+      beforeEach(() => {
+        workspace = stateFile.workspaces[workspaceId];
+      });
+
+      it("should error if _id is not defined", () => {
+        delete workspace._id;
+
+        const errors = verify(stateFile);
+
+        expect(errors).toHaveLength(1);
+        expect(errors[0].message).toBe(
+          `stateFile.workspaces[${workspaceId}]._id must be defined as a string`
+        );
+      });
+
+      it("should error if _id is defined as non string", () => {
+        (workspace._id as any) = 123;
+
+        const errors = verify(stateFile);
+
+        expect(errors).toHaveLength(1);
+        expect(errors[0].message).toBe(
+          `stateFile.workspaces[${workspaceId}]._id must be defined as a string`
+        );
+      });
+
+      it("should error if name is not defined", () => {
+        delete workspace.name;
+
+        const errors = verify(stateFile);
+
+        expect(errors).toHaveLength(1);
+        expect(errors[0].message).toBe(
+          `stateFile.workspaces[${workspaceId}].name must be defined as a string`
+        );
+      });
+
+      it("should error if name is defined as non string", () => {
+        (workspace.name as any) = 123;
+
+        const errors = verify(stateFile);
+
+        expect(errors).toHaveLength(1);
+        expect(errors[0].message).toBe(
+          `stateFile.workspaces[${workspaceId}].name must be defined as a string`
+        );
+      });
+
+      it("should not error if description is not defined", () => {
+        delete workspace.description;
+
+        const errors = verify(stateFile);
+
+        expect(errors).toHaveLength(0);
+      });
+
+      it("should error if description is defined as non string", () => {
+        (workspace.description as any) = 123;
+
+        const errors = verify(stateFile);
+
+        expect(errors).toHaveLength(1);
+        expect(errors[0].message).toBe(
+          `stateFile.workspaces[${workspaceId}].description must be defined as a string`
+        );
+      });
+
+      it("should not error if environment is not defined", () => {
+        delete workspace.environment;
+
+        const errors = verify(stateFile);
+
+        expect(errors).toHaveLength(0);
+      });
+
+      it("should error if environment is defined as non object", () => {
+        (workspace.environment as any) = 123;
+
+        const errors = verify(stateFile);
+
+        expect(errors).toHaveLength(1);
+        expect(errors[0].message).toBe(
+          `stateFile.workspaces[${workspaceId}].environment must be defined as an object`
+        );
+      });
+
+      it("should error if environment has non string value", () => {
+        (workspace.environment as any).key = 123;
+
+        const errors = verify(stateFile);
+
+        expect(errors).toHaveLength(1);
+        expect(errors[0].message).toBe(
+          `stateFile.workspaces[${workspaceId}].environment[key] has non string value: 123`
+        );
+      });
     });
 
     describe("collection", () => {
