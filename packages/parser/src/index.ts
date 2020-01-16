@@ -48,15 +48,15 @@ function verifyWorkspaces(
   if (typeof workspaces !== "object") {
     errors.push(new Error("stateFile.workspaces must be defined as an object"));
   } else {
-    for (const [_idKey, workspace] of Object.entries(workspaces)) {
-      verifyWorkspace(workspace, _idKey, errors);
+    for (const [workspaceKey, workspace] of Object.entries(workspaces)) {
+      verifyWorkspace(workspace, workspaceKey, errors);
     }
   }
 }
 
 function verifyWorkspace(
   workspace: Workspace,
-  _idKey: string,
+  workspaceKey: string,
   errors: Error[]
 ) {
   const { _id, name, description, environment } = workspace;
@@ -64,14 +64,14 @@ function verifyWorkspace(
   verifyItem(
     _id,
     x => typeof x === "string",
-    `stateFile.workspaces[${_idKey}]._id must be defined as a string`,
+    `stateFile.workspaces[${workspaceKey}]._id must be defined as a string`,
     errors
   );
 
   verifyItem(
     name,
     x => typeof x === "string",
-    `stateFile.workspaces[${_idKey}].name must be defined as a string`,
+    `stateFile.workspaces[${workspaceKey}].name must be defined as a string`,
     errors
   );
 
@@ -83,7 +83,7 @@ function verifyWorkspace(
       }
       return true;
     },
-    `stateFile.workspaces[${_idKey}].description must be defined as a string`,
+    `stateFile.workspaces[${workspaceKey}].description must be defined as a string`,
     errors
   );
 
@@ -95,7 +95,7 @@ function verifyWorkspace(
       }
       return true;
     },
-    `stateFile.workspaces[${_idKey}].environment must be defined as an object`,
+    `stateFile.workspaces[${workspaceKey}].environment must be defined as an object`,
     errors
   );
 
@@ -104,14 +104,14 @@ function verifyWorkspace(
       verifyItem(
         key,
         x => typeof x === "string",
-        `stateFile.workspaces[${_idKey}].environment has non string key: ${key}`,
+        `stateFile.workspaces[${workspaceKey}].environment has non string key: ${key}`,
         errors
       );
 
       verifyItem(
         value,
         x => typeof x === "string",
-        `stateFile.workspaces[${_idKey}].environment[${key}] has non string value: ${value}`,
+        `stateFile.workspaces[${workspaceKey}].environment[${key}] has non string value: ${value}`,
         errors
       );
     });
