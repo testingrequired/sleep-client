@@ -68,6 +68,15 @@ function verifyWorkspace(
     errors
   );
 
+  if (_id) {
+    verifyItem(
+      _id,
+      x => x === workspaceKey,
+      `stateFile.workspaces[${workspaceKey}]._id must does not match workspace key: ${_id}`,
+      errors
+    );
+  }
+
   verifyItem(
     name,
     x => typeof x === "string",

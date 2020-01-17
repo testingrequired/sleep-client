@@ -196,14 +196,20 @@ describe("parser", () => {
         );
       });
 
-      it("should error if _id is defined as non string", () => {
-        (workspace._id as any) = 123;
+      it("should error if _id doesn't match workspaces key", () => {
+        const expectedWorkspaceId = "differentWorkspaceId";
+
+        stateFile.workspaces[workspaceId] = {
+          _id: expectedWorkspaceId,
+          name: "workspace name",
+          environment: {}
+        };
 
         const errors = verify(stateFile);
 
         expect(errors).toHaveLength(1);
         expect(errors[0].message).toBe(
-          `stateFile.workspaces[${workspaceId}]._id must be defined as a string`
+          `stateFile.workspaces[${workspaceId}]._id must does not match workspace key: ${expectedWorkspaceId}`
         );
       });
 
