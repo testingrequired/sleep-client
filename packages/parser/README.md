@@ -10,16 +10,20 @@ $ npm i @sleep-client/parser
 
 ## Usage
 
-```typescript
-import { parse, ParsedStateFile, Workspace, Collection, RequestDefinition, mapParsedStateFileToExported } from "@sleep-client/parser";
+```javascript
+import {
+  parse,
+  ParsedStateFile,
+  mapParsedStateFileToExported
+} from "@sleep-client/parser";
 
 (await () => {
   try {
     const parsedStateFile: ParsedStateFile = await parse("./path/to/stateFile");
 
-    const workspaces: Array<Workspace> = parsedStateFile.getWorkspaces();
-    const collections: Array<Collection> = parsedStateFile.getWorkspaceCollections(workspaces[0]);
-    const requests: Array<RequestDefinition> = parsedStateFile.getCollectionRequests(collections[0]);
+    const workspaces = parsedStateFile.getWorkspaces();
+    const collections = parsedStateFile.getWorkspaceCollections(workspaces[0]);
+    const requests = parsedStateFile.getCollectionRequests(collections[0]);
 
     const stateFileJson = JSON.stringify(mapParsedStateFileToExported(parsedStateFile));
   } catch(e){
