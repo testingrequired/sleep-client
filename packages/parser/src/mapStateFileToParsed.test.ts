@@ -3,6 +3,7 @@ import makeTestStateFile from "./makeTestStateFile";
 import mapStateFileToParsed from "./mapStateFileToParsed";
 
 describe("mapStateFileToParsed", () => {
+  const expectedFilePath = "expectedFilePath";
   const stateFileId = "stateFileId";
   const workspaceId = "workspaceId";
   const collectionId = "collectionId";
@@ -19,8 +20,9 @@ describe("mapStateFileToParsed", () => {
   });
 
   it("should map all properties", () => {
-    const parsedStateFile = mapStateFileToParsed(stateFile);
+    const parsedStateFile = mapStateFileToParsed(expectedFilePath, stateFile);
 
+    expect(parsedStateFile.filePath).toEqual(expectedFilePath);
     expect(parsedStateFile._id).toEqual(stateFile._id);
     expect(parsedStateFile.workspaces).toEqual(stateFile.workspaces);
     expect(parsedStateFile.collections).toEqual(stateFile.collections);

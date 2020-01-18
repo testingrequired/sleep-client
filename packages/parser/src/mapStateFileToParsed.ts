@@ -2,6 +2,7 @@ import StateFile from "./types/StateFile";
 import ParsedStateFile from "./ParsedStateFile";
 
 export default function mapStateFileToParsed(
+  filePath: string,
   stateFile: StateFile
 ): ParsedStateFile {
   const {
@@ -14,7 +15,7 @@ export default function mapStateFileToParsed(
   } = stateFile;
 
   const parsedStateFile = new ParsedStateFile(
-    "",
+    filePath,
     _id,
     workspaces,
     collections,
