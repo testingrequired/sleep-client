@@ -1,27 +1,31 @@
 import parse from "./parse";
 import verify from "./verify";
-import { StateFile } from ".";
 import makeTestStateFile from "./makeTestStateFile";
 
+jest.mock("util", () => {
+  return {
+    promisify(fn: Function) {
+      return (path: string, enc: string) => {
+        const stateFileId = "stateFileId";
+        const workspaceId = "workspaceId";
+        const collectionId = "collectionId";
+        const requestId = "requestId";
+        const stateFile = makeTestStateFile(
+          stateFileId,
+          workspaceId,
+          collectionId,
+          requestId
+        );
+
+        return JSON.stringify(stateFile);
+      };
+    }
+  };
+});
 jest.mock("./verify");
 jest.mock("./mapStateFileToParsed");
 
 describe("parse", () => {
-  const stateFileId = "stateFileId";
-  const workspaceId = "workspaceId";
-  const collectionId = "collectionId";
-  const requestId = "requestId";
-  let stateFile: StateFile;
-
-  beforeEach(() => {
-    stateFile = makeTestStateFile(
-      stateFileId,
-      workspaceId,
-      collectionId,
-      requestId
-    );
-  });
-
   describe("when verify returns errors", () => {
     beforeEach(() => {
       (verify as any).mockImplementation(() => {
@@ -29,13 +33,16 @@ describe("parse", () => {
       });
     });
 
-    it("should throw error", () => {
-      expect(() => parse(stateFile)).toThrow();
+    it("should throw error", async () => {
+      try {
+        await parse("");
+        fail("Did not throw error");
+      } catch (e) {}
     });
 
-    it("should include verify error messages in thrown error", () => {
+    it("should include verify error messages in thrown error", async () => {
       try {
-        parse(stateFile);
+        await parse("");
       } catch (e) {
         expect(e.message).toEqual(
           `There were some issues with the state file: error message 1, error message 2`
@@ -51,8 +58,12 @@ describe("parse", () => {
       });
     });
 
-    it("should not throw error", () => {
-      expect(() => parse(stateFile)).not.toThrow();
+    it("should not throw error", async () => {
+      try {
+        await parse("");
+      } catch (e) {
+        fail("Did throw error");
+      }
     });
   });
 });
