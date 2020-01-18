@@ -1,4 +1,3 @@
-import { StateFile, ParsedStateFile } from ".";
 import makeTestStateFile from "./makeTestStateFile";
 import mapStateFileToParsed from "./mapStateFileToParsed";
 import mapParsedToExport from "./mapParsedToExport";
