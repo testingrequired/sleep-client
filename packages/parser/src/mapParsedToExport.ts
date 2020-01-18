@@ -1,7 +1,7 @@
 import StateFile from "./types/StateFile";
 import ParsedStateFile from "./ParsedStateFile";
 
-export default function mapParsedStateFileToExported(
+export default function mapParsedToExport(
   parsedStateFile: ParsedStateFile
 ): StateFile {
   const {

@@ -6,4 +6,4 @@ export { default as RequestDefinition } from "./types/RequestDefinition";
 export { default as Settings } from "./types/Settings";
 export { default as StateFile } from "./types/StateFile";
 export { default as Workspace } from "./types/Workspace";
-export { default as mapParsedStateFileToExported } from "./mapParsedStateFileToExported";
+export { default as mapParsedToExport } from "./mapParsedToExport";

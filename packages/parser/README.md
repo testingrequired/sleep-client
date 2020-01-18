@@ -14,7 +14,7 @@ $ npm i @sleep-client/parser
 import {
   parse,
   ParsedStateFile,
-  mapParsedStateFileToExported
+  mapParsedToExport
 } from "@sleep-client/parser";
 
 (await () => {
@@ -25,7 +25,7 @@ import {
     const collections = parsedStateFile.getWorkspaceCollections(workspaces[0]);
     const requests = parsedStateFile.getCollectionRequests(collections[0]);
 
-    const stateFileJson = JSON.stringify(mapParsedStateFileToExported(parsedStateFile));
+    const stateFileJson = JSON.stringify(mapParsedToExport(parsedStateFile));
   } catch(e){
     e.message // Contains any errors parsing
   }
