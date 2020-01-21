@@ -14,8 +14,6 @@ import { parse } from "@sleep-client/parser";
 import { callRequest } from "@sleep-client/caller";
 
 (await () => {
-  let wasCancelled;
-
   try {
     const parsedStateFile = await parse("./path/to/stateFile");
 
@@ -25,19 +23,12 @@ import { callRequest } from "@sleep-client/caller";
 
     const call = callRequest(request);
 
-    const {asyncResponse} = call;
-    {wasCancelled} = call;
+    assert.strictEqual(call.request, request);
 
-    assert.strictEqual(response.request, request);
-
-    const response = await asyncResponse;
+    const response = await call.response;
 
     assert.strictEqual(200, response.status);
   } catch(e){
-    if (wasCancelled(e)) {
-      // Request was cancelled
-    }
-
     e.message // Contains any errors parsing
   }
 })()
