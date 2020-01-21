@@ -1,6 +1,6 @@
 {
   "name": "@sleep-client/caller",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Make sleep client requests",
   "author": "Kylee Tilley <kylee@testingrequired.com>",
   "homepage": "https://github.com/testingrequired/sleep-client#readme",
@@ -39,7 +39,7 @@
     "typescript": "^3.7.4"
   },
   "dependencies": {
-    "axios": "^0.19.1",
-    "@sleep-client/parser": "0.1.0"
+    "@sleep-client/parser": "0.1.0",
+    "axios": "^0.19.1"
   }
 }
