@@ -1,0 +1,45 @@
+{
+  "name": "@sleep-client/caller",
+  "version": "0.0.0",
+  "description": "Make sleep client requests",
+  "author": "Kylee Tilley <kylee@testingrequired.com>",
+  "homepage": "https://github.com/testingrequired/sleep-client#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/testingrequired/sleep-client.git"
+  },
+  "scripts": {
+    "test": "jest",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "build": "npm run build:types && npm run build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline"
+  },
+  "bugs": {
+    "url": "https://github.com/testingrequired/sleep-client/issues"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
+    "@types/jest": "^24.9.0",
+    "jest": "^24.9.0",
+    "jest-mock-axios": "^3.2.0",
+    "ts-jest": "^24.3.0",
+    "typescript": "^3.7.4"
+  },
+  "dependencies": {
+    "axios": "^0.19.1",
+    "@sleep-client/parser": "0.1.0"
+  }
+}
