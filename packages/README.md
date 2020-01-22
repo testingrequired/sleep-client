@@ -11,3 +11,9 @@
     
     Library for calling sleep client state file requests.
 </details>
+
+<details>
+    <summary><a href="caller">@sleep-client/app</a></summary>
+    
+    Desktop client.
+</details>
