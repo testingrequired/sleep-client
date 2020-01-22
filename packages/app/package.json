@@ -1,7 +1,10 @@
 {
   "name": "app",
+  "description": "Desktop app for Sleep REST Client",
   "version": "0.1.0",
   "private": true,
+  "main": "electron/main.js",
+  "productName": "Sleep REST Client",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
@@ -16,7 +19,8 @@
     "typescript": "^3.7.5"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env BROWSER=none && react-scripts start",
+    "start:electron": "cross-env ELECTRON_START_URL=http://localhost:3000 && electron .",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -35,5 +39,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^6.0.3",
+    "electron": "^7.1.9"
   }
 }
