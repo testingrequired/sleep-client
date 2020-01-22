@@ -1,4 +1,5 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
+const { APP_INFO } = require("../src/shared/constants");
 const path = require("path");
 const url = require("url");
 
@@ -13,7 +14,13 @@ function createWindow() {
       slashes: true
     });
 
-  mainWindow = new BrowserWindow({ width: 800, height: 600 });
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js")
+    }
+  });
 
   mainWindow.removeMenu();
 
@@ -36,4 +43,11 @@ app.on("activate", function() {
   if (mainWindow === null) {
     createWindow();
   }
+});
+
+ipcMain.on(APP_INFO, event => {
+  event.sender.send(APP_INFO, {
+    appName: app.getName(),
+    appVersion: app.getVersion()
+  });
 });

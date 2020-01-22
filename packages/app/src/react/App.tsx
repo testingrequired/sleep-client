@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { APP_INFO } from "../shared/constants";
+import "./App.css";
+
+const { ipcRenderer } = window as any;
 
 const App: React.FC = () => {
+  const [appName, setAppName] = React.useState<string>();
+  const [appVersion, setAppVersion] = React.useState<string>();
+
+  ipcRenderer.send(APP_INFO);
+
+  ipcRenderer.on(APP_INFO, (event: any, arg: any) => {
+    ipcRenderer.removeAllListeners(APP_INFO);
+
+    setAppName(arg.appName);
+    setAppVersion(arg.appVersion);
+  });
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          {appName} version {appVersion}
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
     </div>
   );
-}
+};
 
 export default App;
