@@ -19,8 +19,8 @@
     "typescript": "^3.7.5"
   },
   "scripts": {
-    "start": "cross-env BROWSER=none && react-scripts start",
-    "start:electron": "cross-env ELECTRON_START_URL=http://localhost:3000 && electron .",
+    "start": "cross-env BROWSER=none react-scripts start",
+    "start:electron": "cross-env ELECTRON_START_URL=http://localhost:3000 electron .",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
