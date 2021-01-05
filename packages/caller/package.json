@@ -40,6 +40,6 @@
   },
   "dependencies": {
     "@sleep-client/parser": "0.1.0",
-    "axios": "^0.19.1"
+    "axios": "^0.21.1"
   }
 }
